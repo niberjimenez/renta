@@ -1,8 +1,9 @@
-const express = require('express');
-require('dotenv').config()
-const dbconnection = require('../database/config')
-const {getVehicle, postVehicle} = require('../controllers/vehiclecontroller')
-const {getOwner,postOwner} = require('../controllers/ownercontroller')
+import express, { json } from 'express';
+import 'dotenv/config'
+import dbconnection from '../database/config.js';
+import routesVehicle from '../routes/vehicleRoute.js';
+import routesOwner from '../routes/ownerroute.js';
+import routesUser from '../routes/userroute.js';
 
 class Server{
     constructor (){
@@ -18,11 +19,11 @@ class Server{
     }
 
     route(){
-        this.app.use(express.json())
-        this.app.get(this.pathOwner,getOwner)
-        this.app.post(this.pathOwner,postOwner)
-        this.app.get(this.pathVehicle,getVehicle)
-        this.app.post(this.pathVehicle,postVehicle)
+        this.app.use(json())
+        this.app.use('/api/vehicle',routesVehicle)
+        this.app.use('/api/owner',routesOwner)
+        this.app.use('/api/user',routesUser)
+        
     }
 
 
@@ -33,4 +34,4 @@ class Server{
     }
 }
 
-module.exports = Server 
+export default Server 
